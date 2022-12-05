@@ -9,6 +9,12 @@ from spotipy.oauth2 import SpotifyClientCredentials
 # Caleigh Crossman
 # Spotify API 
 
+url = "https://api.spotify.com/v1/search?query=year%3A2022&type=track&market=US&offset=0&limit=2"
+song_ids = []
+valence_lst = []
+energy_lst = []
+danceability_lst = []
+
 
 # Set up the database given the db_name
 def set_up_db(db_name):
