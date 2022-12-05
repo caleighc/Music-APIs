@@ -16,3 +16,9 @@ def set_up_db(db_name):
     conn = sqlite3.connect(path+'/'+db_name)
     cur = conn.cursor()
     return cur, conn
+
+def main():
+    cur, conn = set_up_db('music.db')
+
+if __name__ == "__main__":
+    main()
