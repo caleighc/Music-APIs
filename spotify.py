@@ -7,4 +7,6 @@ import matplotlib.pyplot as plt
 # Caleigh Crossman
 # Spotify API 
 
+import math 
+
 
