@@ -23,8 +23,12 @@ def set_up_db(db_name):
     cur = conn.cursor()
     return cur, conn
 
+def make_visualizations(cur,conn):
+    pass
+
 def main():
     cur, conn = set_up_db('music.db')
+    make_visualizations(cur,conn)
 
 if __name__ == "__main__":
     main()
