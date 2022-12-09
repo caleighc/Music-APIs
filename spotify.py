@@ -30,17 +30,34 @@ def make_request(playlist_id):
         energy_lst.append(song_info[0]['energy'])
     return playlist
 
-# Set up the database given the db_name
-def set_up_db(db_name):
-    path = os.path.dirname(os.path.abspath(__file__))
-    conn = sqlite3.connect(path+'/'+db_name)
-    cur = conn.cursor()
-    return cur, conn
-
 # Create table with list of genre IDs and genres
 def create_artists_table(cur,conn):
     cur.execute("DROP TABLE IF EXISTS Artists")
     cur.execute("CREATE TABLE Artists (artist_id TEXT PRIMARY KEY, artist TEXT)")
+    conn.commit()
+    
+
+# Create the table called songs
+def make_songs_table(cur,conn):
+    cur.execute("DROP TABLE IF EXISTS Songs")
+    cur.execute("CREATE TABLE Songs (song_name TEXT PRIMARY KEY, song_id TEXT, artist_id TEXT, popularity INTEGER, \
+                valence FLOAT, danceability FLOAT, energy FLOAT)")
+    conn.commit()
+    
+# Add 25 songs at a time to table
+def add_songs(data,cur,conn):
+    i = 0
+    for track in data['items']:
+        song_name = track['track']['name']
+        song_id = track['track']['id']
+        popularity = track['track']['popularity']
+        valence = valence_lst[i]
+        danceability = danceability_lst[i]
+        energy = energy_lst[i]
+        i+=1
+        cur.execute('SELECT artist_id FROM Artists WHERE artist = ?',(track['track']['artists'][0]['name'], ))
+        artist_id = cur.fetchone()[0]
+        cur.execute("INSERT OR IGNORE INTO Songs (song_name,song_id,artist_id,popularity,valence,danceability,energy) VALUES (?,?,?,?,?,?,?)",(song_name,song_id,artist_id,popularity,valence,danceability,energy))
     conn.commit()
 
 # Reads and loads the json data from the file
@@ -61,10 +78,10 @@ def write_json(filename,dict):
 def make_visualizations(cur,conn):
     pass
 
-def main():
-    make_request()
-    cur, conn = set_up_db('music.db')
-    make_visualizations(cur,conn)
+# def main():
+#     make_request()
+#     cur, conn = set_up_db('music.db')
+#     make_visualizations(cur,conn)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
