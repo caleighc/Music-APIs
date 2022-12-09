@@ -29,14 +29,9 @@ def song_functions(cur,conn):
     #except:
         #pass
 
-def setUpDatabase(db_name):
-    path = os.path.dirname(os.path.abspath(__file__))
-    conn = sqlite3.connect(path+'/'+db_name)
-    cur = conn.cursor()
-    return cur, conn
 
-def database():
-   cur,conn = setUpDatabase("music.db") 
+
+def create_tables():
    cur.execute("CREATE TABLE IF NOT EXISTS music_name_table (column_music)") 
    # call whatever function adds data to the database
    song_functions(cur,conn)
