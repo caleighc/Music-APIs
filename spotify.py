@@ -84,5 +84,6 @@ def write_json(filename,dict):
         outFile.write(jsonString)
 
 def make_visualizations(cur,conn):
+    fig, ax = plt.subplots()
     pass
 
