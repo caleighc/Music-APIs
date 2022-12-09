@@ -19,13 +19,14 @@ def main():
     cur,conn = set_up_db("music.db") 
     # Create tables for spotify 
     spotify.create_artists_table(cur,conn)
-    # Create tables for genius
-   
-    # Create tables for apple music 
-
+    spotify.make_songs_table(cur,conn)
     # Add data for spotify
     
+    # Create tables for genius
+    
     # Add data for genius 
+    
+    # Create tables for apple music 
     
     # Add data for apple music 
 
