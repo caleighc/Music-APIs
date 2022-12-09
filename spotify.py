@@ -78,10 +78,3 @@ def write_json(filename,dict):
 def make_visualizations(cur,conn):
     pass
 
-# def main():
-#     make_request()
-#     cur, conn = set_up_db('music.db')
-#     make_visualizations(cur,conn)
-
-# if __name__ == "__main__":
-#     main()
