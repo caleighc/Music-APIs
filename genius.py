@@ -35,12 +35,13 @@ def setUpDatabase(db_name):
     cur = conn.cursor()
     return cur, conn
 
-def main():
+def database():
    cur,conn = setUpDatabase("music.db") 
    cur.execute("CREATE TABLE IF NOT EXISTS music_name_table (column_music)") 
    # call whatever function adds data to the database
    song_functions(cur,conn)
-   cur.execute("INSERT INTO Songs (song_name,song_id,artist_id,popularity) VALUES (?,?,?,?)",(song_name,song_id,artist_id,popularity))
+   cur.execute("INSERT INTO music_name_table (song,id,artist,popularity) VALUES (?,?,?,?)",(song_name,song_id,artist_id,popularity))
+   
    conn.commit()
    # if i decide to put parameters in just update both song_functions()
    # find one of the sql functions that inserts info into the database
