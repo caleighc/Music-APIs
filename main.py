@@ -21,7 +21,11 @@ def main():
     spotify.create_artists_table(cur,conn)
     spotify.make_songs_table(cur,conn)
     # Add data for spotify
-    
+    playlist_ids = ["37i9dQZF1DX7Jl5KP2eZaS","37i9dQZF1DX0kbJZpiYdZl","6SjN06zZBZpsCWJk2DwhDs","3KHb0WRmzbp9WH7E2mXVmx","0chdKQr18NN9WRI355V8BN"]
+    for id in playlist_ids:
+        jsonDict = spotify.make_request(id)
+        spotify.add_artists_id(jsonDict,cur,conn)
+        spotify.add_songs(jsonDict,cur,conn)
     # Create tables for genius
     
     # Add data for genius 
