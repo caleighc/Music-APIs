@@ -6,7 +6,7 @@ import os
 # import all our files
 import spotify
 import genius
-import apple
+import audio
 
 # Set up the database given the db_name
 def set_up_db(db_name):
