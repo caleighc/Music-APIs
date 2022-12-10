@@ -30,12 +30,7 @@ def main():
     #spotify.make_visualizations(cur,conn)
     spotify.artists_visualization(cur,conn)
     # Create tables for genius
-<<<<<<< HEAD
-    genius.song_functions(cur, conn)
-    
-=======
     #genius.song_functions(cur,conn)
->>>>>>> 98d46dda8eccf57ac086e7a956c669943cd0ffc6
     # Add data for genius 
 
     # Create tables for apple music 
