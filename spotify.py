@@ -83,7 +83,6 @@ def write_json(filename,dict):
     with open(filename, 'w') as outFile:
         outFile.write(jsonString)
 
-
 # Calculate line of best fit and make visualizations 
 def make_visualizations(cur,conn):
     plt.figure()
@@ -125,4 +124,34 @@ def make_visualizations(cur,conn):
     sst = np.sum((y-mean_y)**2)
     r_squared = 1 - (standard_error/sst)
     print(f"The coefficient of determination (R^2) is {r_squared}")
+    f = open("output.txt", 'w')
+    f.write(f"The slope is {slope}")
+    f.write(f"The y-intercept is {b}")
+    f.write(f"The line of best fit is y = {slope}*x + {b}")
+    f.close()
+    
+# Create visualization of artists 
+def artists_visualization(cur,conn):
+    plt.figure()
+    cur.execute(
+    """
+    SELECT artists.artist, COUNT(*)
+    FROM songs 
+    JOIN Artists ON artists.artist_id = Songs.artist_id
+    GROUP BY artist
+    HAVING COUNT(*) > 1
+    """
+    )
+    result = cur.fetchall()
+    conn.commit()
+    types = {}
+    for item in result:
+        types[item[0]] = item[1]
+    y = list(types.keys())
+    x = list(types.values())
+    plt.title("Artists that have > 1 song on top charts")
+    plt.ylabel('Artists')
+    plt.xlabel('Number of songs')
+    plt.barh(y,x)
+    plt.show()
 
