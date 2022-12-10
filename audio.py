@@ -77,23 +77,16 @@ def request_data(artist_id):
         score.append(item)
 
 
-# create database
-def open_database(db_name):
-    path = os.path.dirname(os.path.abspath(__file__))
-    conn = sqlite3.connect(path+'/'+db_name)
-    cur = conn.cursor()
-    return cur, conn
-
 
 # create table
 def create_table(cur, conn):
     cur.execute('DROP TABLE IF EXISTS Music')
-    cur.execute("CREATE TABLE IF NOT EXISTS Music (song_id TEXT PRIMARY KEY, song TEXT, genre TEXT")
+    cur.execute("CREATE TABLE IF NOT EXISTS Music (song_id TEXT PRIMARY KEY, song TEXT, genre TEXT)")
     conn.commit()
 
 
-# insert data into table - hw7 first function
-def insert_song_id(cur, conn):
+# insert data into table 
+def insert_data(cur, conn):
     for item in range(len(song_id)):
         id_temp = song_id[item]
         song_temp = song[item]

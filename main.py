@@ -41,7 +41,7 @@ def main():
     # Create tables for audio-db 
     audio.create_table(cur, conn)
     # Add data for audio-db
-    audio.insert_song_id(cur, conn)
+    audio.insert_data(cur, conn)
 
 if __name__ == "__main__":
     main()
