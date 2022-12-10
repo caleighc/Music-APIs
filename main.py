@@ -26,14 +26,16 @@ def main():
         jsonDict = spotify.make_request(id)
         spotify.add_artists_id(jsonDict,cur,conn)
         spotify.add_songs(jsonDict,cur,conn)
+    # Make calculations and visualizations for spotify 
+    #spotify.make_visualizations(cur,conn)
+    spotify.artists_visualization(cur,conn)
     # Create tables for genius
-    
+    #genius.song_functions(cur,conn)
     # Add data for genius 
-    
+
     # Create tables for apple music 
     
     # Add data for apple music 
-
 
 if __name__ == "__main__":
     main()
