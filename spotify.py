@@ -36,12 +36,20 @@ def create_artists_table(cur,conn):
     cur.execute("CREATE TABLE Artists (artist_id TEXT PRIMARY KEY, artist TEXT)")
     conn.commit()
     
-
 # Create the table called songs
 def make_songs_table(cur,conn):
     cur.execute("DROP TABLE IF EXISTS Songs")
     cur.execute("CREATE TABLE Songs (song_name TEXT PRIMARY KEY, song_id TEXT, artist_id TEXT, popularity INTEGER, \
                 valence FLOAT, danceability FLOAT, energy FLOAT)")
+    conn.commit()
+    
+# Adds artist ids
+def add_artists_id(data,cur,conn):
+    artist_lst = []
+    for track in data['items']:
+        artist = track['track']['artists'][0]['name']
+        id = track['track']['artists'][0]['id']
+        cur.execute("INSERT OR IGNORE INTO Artists (artist_id,artist) VALUES (?,?)",(id,artist))
     conn.commit()
     
 # Add 25 songs at a time to table
