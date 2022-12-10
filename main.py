@@ -27,6 +27,7 @@ def main():
         spotify.add_artists_id(jsonDict,cur,conn)
         spotify.add_songs(jsonDict,cur,conn)
     # Create tables for genius
+    genius.song_functions(cur, conn)
     
     # Add data for genius 
     
