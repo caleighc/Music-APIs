@@ -155,3 +155,4 @@ def artists_visualization(cur,conn):
     plt.barh(y,x)
     plt.show()
 
+
