@@ -18,7 +18,6 @@ def song_functions(cur,conn):
     print(artist.songs)
     artist = genius.search_artist("Drake", max_songs = 100, sort = 'popularity')
     print(artist.songs)
-    
 
 #artists = []
 #while True:
@@ -30,14 +29,13 @@ def song_functions(cur,conn):
         #pass
 
 
-
-def create_tables(cur,conn):
-   cur.execute("CREATE TABLE IF NOT EXISTS music_name_table (column_music)") 
+#def create_tables(cur,conn):
+   #cur.execute("CREATE TABLE IF NOT EXISTS music_name_table (column_music)") 
    #call whatever function adds data to the database
-   song_functions(cur,conn)
-   cur.execute("INSERT INTO music_name_table (song,id,artist,popularity) VALUES (?,?,?,?)",(song_name,song_id,artist_id,popularity))
+   #song_functions(cur,conn)
+   #cur.execute("INSERT INTO music_name_table (song,id,artist,popularity) VALUES (?,?,?,?)",(song_name,song_id,artist_id,popularity))
    
-   conn.commit()
+   #conn.commit()
    #if i decide to put parameters in just update both song_functions()
    #find one of the sql functions that inserts info into the database
     
