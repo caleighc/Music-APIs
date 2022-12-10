@@ -3,12 +3,12 @@ import sqlite3
 import json
 import os
 import matplotlib.pyplot as plt
+import numpy as np
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
 # Caleigh Crossman
 # Spotify API 
-
 url = "https://api.spotify.com/v1/search?query=year%3A2022&type=track&market=US&offset=0&limit=2"
 song_ids = []
 valence_lst = []
@@ -83,7 +83,46 @@ def write_json(filename,dict):
     with open(filename, 'w') as outFile:
         outFile.write(jsonString)
 
+
+# Calculate line of best fit and make visualizations 
 def make_visualizations(cur,conn):
-    fig, ax = plt.subplots()
-    pass
+    plt.figure()
+    cur.execute(
+    """
+    SELECT danceability,energy
+    FROM Songs
+    """
+    )
+    res = cur.fetchall()
+    conn.commit()
+    x,y = list(map(list, zip(*res)))
+    x = np.array(x)
+    y = np.array(y)
+    # Calculate the slope
+    n = len(x)
+    mean_x = np.mean(x)
+    mean_y = np.mean(y)
+    sxy = np.sum(x*y) - n*mean_x*mean_y
+    sxx = np.sum(x*x) - n*mean_x*mean_x
+    slope = sxy/sxx
+    b = mean_y-slope*mean_x
+    line_best_fit = slope * x + b
+    print(f"The slope is {slope}")
+    print(f"The y-intercept is {b}")
+    print(f"The line of best fit is y = {slope}*x + {b}")
+    # Plot the scatter and line of best fit
+    plt.xlabel('Danceability')
+    plt.ylabel('Energy')
+    plt.title("Danceability vs. Energy")
+    plt.scatter(x,y,color='blue')
+    plt.plot(x,line_best_fit, color='red')
+    plt.show()
+    # Calculation coefficient of determination
+    error = y - line_best_fit
+    standard_error = np.sum(error**2)
+    mse = standard_error/n
+    rmse = np.sqrt(mse)
+    sst = np.sum((y-mean_y)**2)
+    r_squared = 1 - (standard_error/sst)
+    print(f"The coefficient of determination (R^2) is {r_squared}")
 
