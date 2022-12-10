@@ -31,15 +31,15 @@ def song_functions(cur,conn):
 
 
 
-def create_tables():
+def create_tables(cur,conn):
    cur.execute("CREATE TABLE IF NOT EXISTS music_name_table (column_music)") 
-   # call whatever function adds data to the database
+   #call whatever function adds data to the database
    song_functions(cur,conn)
    cur.execute("INSERT INTO music_name_table (song,id,artist,popularity) VALUES (?,?,?,?)",(song_name,song_id,artist_id,popularity))
    
    conn.commit()
-   # if i decide to put parameters in just update both song_functions()
-   # find one of the sql functions that inserts info into the database
+   #if i decide to put parameters in just update both song_functions()
+   #find one of the sql functions that inserts info into the database
     
 
     # find average length of the title and compare it to popularity
