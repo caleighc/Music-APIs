@@ -30,18 +30,12 @@ def main():
     #spotify.make_visualizations(cur,conn)
     #spotify.artists_visualization(cur,conn)
     # Create tables for genius
-<<<<<<< HEAD
-    genius.song_functions()
-    genius.create_tables(cur,conn)
-    
-=======
     #genius.song_functions(cur,conn)
->>>>>>> 433f50166ab1f58da32ad89afb99f20477a3cc2c
     # Add data for genius 
 
 
-    artist_id =  ['20244d07-534f-4eff-b4d4-930878889970', '9fff2f8a-21e6-47de-a2b8-7f449929d43f', '381086ea-f511-4aba-bdf9-71c753dc5077', '65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab', 'c8b03190-306c-4120-bb0b-6f2ebfc06ea9',
-    '859d0860-d480-4efd-970c-c05d5f1776b8', 'f4fdbb4c-e4b7-47a0-b83b-d91bbfcfa387', 'f27ec8db-af05-4f36-916e-3d57f91ecf5e', '73e5e69d-3554-40d8-8516-00cb38737a1c', 'b8a7c51f-362c-4dcb-a259-bc6e0095f0a6']
+    artist_id = ['20244d07-534f-4eff-b4d4-930878889970', '9fff2f8a-21e6-47de-a2b8-7f449929d43f', '381086ea-f511-4aba-bdf9-71c753dc5077', '65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab', 'c8b03190-306c-4120-bb0b-6f2ebfc06ea9',
+    'e0140a67-e4d1-4f13-8a01-364355bee46e', 'f4fdbb4c-e4b7-47a0-b83b-d91bbfcfa387', 'f27ec8db-af05-4f36-916e-3d57f91ecf5e', '73e5e69d-3554-40d8-8516-00cb38737a1c', 'b8a7c51f-362c-4dcb-a259-bc6e0095f0a6']
     for id in artist_id:
         audio.request_data(id)
     # Create tables for audio-db 
