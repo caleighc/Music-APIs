@@ -15,9 +15,7 @@ song_id = []
 song = []
 artist_id = []
 artist = []
-genre = []
-mood = []
-style = []
+# genre = []
 score = []
 votes = []
 
@@ -72,7 +70,6 @@ def request_data(artist_ids):
     # get song score 
     regex = r'"intScore":"{0,1}([0-9*.*0-9*]{1,}|null)"{0,1}'
     temp = re.findall(regex, data)
-    print(temp)
     for item in temp:
         score.append(item)
 
@@ -84,17 +81,11 @@ def request_data(artist_ids):
 
 
 
-    # get song genre 
-    regex = r'"strGenre":"([\w+\s*\/*\-*\&*]{1,})"'
-    temp = re.findall(regex, data)
-    for item in temp:
-        genre.append(item)
-
-    # get song mood
-    regex = r'"strMood":"([\w+\s*\/*\-*\&*]{1,})"'
-    temp = re.findall(regex, data)
-    for item in temp:
-        mood.append(item)
+    # # get song genre 
+    # regex = r'"strGenre":"([\w+\s*\/*\-*\&*]{1,})"'
+    # temp = re.findall(regex, data)
+    # for item in temp:
+    #     genre.append(item)
 
 
 
@@ -177,18 +168,33 @@ def insert_data(cur, conn):
 
     conn.commit()
 
+def addlabels(x, y):
+    for i in range(len(x)):
+        plt.text(i, y[i], y[i], ha = 'center')
 
-# get calculations 
-# sum up each genre total
-#** order each genre on a scale, give number, get average genre number and see where it falls on scale of sorted genres
-# calculate the average score and number of votes for each artist 
+# calculate the average score for each artist 
 def calculate(cur, conn):
-    genre_count = {}
-    for item in genre:
-        genre_count[item] = genre_count.get(item, 0) + 1
-    print(genre_count)
+    # cur.execute("SELECT a.artist, avg(s.votes) from SongsAudiodb s join ArtistsAudiodb a on s.artist_id = a.artist_id group by a.artist")
+    # result = cur.fetchall()
+    # conn.commit()
+    # print(result)
 
-    cur.execute("SELECT * from ")
+    cur.execute("SELECT a.artist, avg(s.score) from SongsAudiodb s join ArtistsAudiodb a on s.artist_id = a.artist_id group by a.artist")
+    result = cur.fetchall()
+    conn.commit()
+    print(result)
+
+    x = []
+    y = []
+    for i in result:
+        x.append(i[0])
+        y.append(round(i[1], 2))
+    plt.bar(x, y)
+    addlabels(x, y)
+    plt.title("Average Score of Artists' Top 10 Songs")
+    plt.xlabel("Artist")
+    plt.ylabel("Average Score")
+    plt.show()
 
 
 
@@ -199,7 +205,7 @@ def main():
     for id in artist_ids:
         request_data(id)
 
-    calculate()  
+
 
 if __name__ == "__main__":
     main()
