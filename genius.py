@@ -42,7 +42,7 @@ def song_functions():
 #print(artist.songs)
 
 # create table
-def create_tables(cur,conn):
+def create_tables(cur, conn):
   cur.execute('DROP TABLE IF EXISTS SongsAudiodb')
   cur.execute("CREATE TABLE IF NOT EXISTS SongsAudiodb ((full_title TEXT PRIMARY KEY, name TEXT, year INT)")
   conn.commit()
@@ -57,7 +57,7 @@ def add_data(cur, conn):
     name_column = name[item]
     year_column = year[item]
     cur.execute("INSERT OR IGNORE INTO SongsAudiodb (full_title, name, year) VALUES (?, ?, ?)", (title_column, name_column, year_column))
-    #conn.commit()
+    conn.commit()
 
 
   #if i decide to put parameters in just update both song_functions()
