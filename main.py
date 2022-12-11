@@ -49,6 +49,8 @@ def main():
     audio.create_table(cur, conn)
     # Add data for audio-db
     audio.insert_data(cur, conn)
+    
+    audio.calculate(cur, conn)
 
 if __name__ == "__main__":
     main()
