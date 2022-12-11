@@ -182,7 +182,6 @@ def calculate(cur, conn):
     cur.execute("SELECT a.artist, avg(s.score) from SongsAudiodb s join ArtistsAudiodb a on s.artist_id = a.artist_id group by a.artist")
     result = cur.fetchall()
     conn.commit()
-    print(result)
 
     x = []
     y = []
