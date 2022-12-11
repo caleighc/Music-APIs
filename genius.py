@@ -31,10 +31,18 @@ def song_functions():
 # create table
 def create_tables(cur,conn):
   cur.execute('DROP TABLE IF EXISTS Song')
-  cur.execute('CREATE TABLE Song (id TEXT PRIMARY KEY, artist TEXT)')
+  cur.execute('CREATE TABLE Song (Song.title TEXT PRIMARY KEY, Song.artist TEXT, Song.year)')
   conn.commit()
-  #call whatever function adds data to the database
-  #song_functions(cur,conn)
+
+  
+# insert data into table 
+def add_data(cur, conn):
+    for item in range(len(Song.title)):
+        song_column = Song.title[item]
+        artist_column = Song.artist[item]
+        year_column = Song.year[item]
+        cur.execute("INSERT OR IGNORE INTO Song (Song.title, Song.artist, Song.artist) VALUES (?, ?, ?)", (Song.title, Song.artist, Song.year))
+    conn.commit()
   #cur.execute("INSERT INTO music_name_table (song,id,artist,popularity) VALUES (?,?,?,?)",(song_name,song_id,artist_id,popularity))
  
   #conn.commit()

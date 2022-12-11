@@ -30,14 +30,11 @@ def main():
     #spotify.make_visualizations(cur,conn)
     #spotify.artists_visualization(cur,conn)
     # Create tables for genius
-<<<<<<< HEAD
     genius.song_functions()
     genius.create_tables(cur,conn)
     
-=======
-    #genius.song_functions(cur,conn)
->>>>>>> 433f50166ab1f58da32ad89afb99f20477a3cc2c
     # Add data for genius 
+    genius.add_data(cur, conn)
 
 
     artist_id =  ['20244d07-534f-4eff-b4d4-930878889970', '9fff2f8a-21e6-47de-a2b8-7f449929d43f', '381086ea-f511-4aba-bdf9-71c753dc5077', '65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab', 'c8b03190-306c-4120-bb0b-6f2ebfc06ea9',
