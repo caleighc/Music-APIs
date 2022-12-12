@@ -31,7 +31,7 @@ def main():
     #spotify.artists_visualization(cur,conn)
     # Create tables for genius
     genius.song_functions()
-    genius.create_tables(cur,conn)
+    genius.create_tables(cur, conn)
     
     # Add data for genius 
     genius.add_data(cur, conn)
