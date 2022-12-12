@@ -4,7 +4,8 @@ import json
 import os
 import matplotlib.pyplot as plt
 from statistics import mean
-
+import numpy as np
+import plotly.express as px
 # Remi Goldfarb
 # Genius API
 
@@ -120,25 +121,46 @@ def add_data_4(cur, conn):
     year_column = data_5["songs"][item]["release_date_components"]["year"]
     cur.execute("INSERT or IGNORE INTO Genius (full_title, name, year) VALUES (?, ?, ?)", (title_column, name_column, year_column))
   conn.commit()
+  
+def read_data_in_json(files):
+    full_path = os.path.join(os.path.dirname(__file__), files)
+    f = open(full_path)
+    file_data = f.read()
+    f.close()
+    json_data = json.loads(file_data)
+    return json_data
 
-# Write the json data to a file 
-def writing_json_genius(filename,dict):
+def writing_json(files,dict):
     jsonString = json.dumps(dict)
-    with open(filename, 'w') as outFile:
+    with open(files, 'w') as outFile:
         outFile.write(jsonString)
 
-   
-def make_visualizations_hist(Genius):
+def make_visualizations_hist(cur, conn):
+    cur.execute("SELECT artist, avg(year) from Genius")
+    result = cur.fetchall()
+    conn.commit()
+    
     x_values = []
     for values in Genius:
       x_values.append(values[1])
     fig, ax = plt.subplots(figsize =(10, 7))
 
-    ax.hist(mean(x_values), year = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022])
+    ax.hist(mean(x_values), bins = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022])
     plt.title("Average Year Top Songs Were Produced")
     plt.xlabel("Mean of Year")
     plt.ylabel("Number of Occurences")
     plt.show()
+
+    df = px.artist.year()
+    fig = px.histogram(df, x="year", category_orders=dict(year=[2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]))
+    fig.show()
+  
+
+# Write the json data to a file 
+def writing_json_genius(files,dict):
+    jsonString = json.dumps(dict)
+    with open(genius.py, 'w') as outFile:
+        outFile.write(jsonString)
     
     #for year_var in year_column[data_2]:
   

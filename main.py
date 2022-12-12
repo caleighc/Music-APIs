@@ -55,17 +55,17 @@ def run_genius(cur,conn):
     #genius._get(path, params=None, headers=None)
     #genius.get_artist_songs(artist_id)
     #genius.get_song_information(song_ids)
-    genius.make_visualizations(cur,conn)
-    genius.writing_json_genius(filename,dict)
+    #genius.writing_json_genius(files,dict)
+    genius.make_visualizations_hist(cur, conn)
 
 def main(): 
     cur,conn = set_up_db("music.db") 
     # run spotify
-    run_spotify(cur,conn)
+    #run_spotify(cur,conn)
     # run audio
     #run_audio(cur,conn)
-    # run genius
-    #run_genius(cur,conn)
+    run_genius
+    run_genius(cur,conn)
 
 
 if __name__ == "__main__":
