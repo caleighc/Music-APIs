@@ -3,6 +3,7 @@ import sqlite3
 import json
 import os
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Remi Goldfarb
 # Genius API
@@ -137,7 +138,7 @@ def make_visualizations(cur,conn):
     plt.figure()
     cur.execute()
     """
-    SELECT full_title,year
+    SELECT full_title, avg(year)
     FROM Genius
     """
     res = cur.fetchall()
