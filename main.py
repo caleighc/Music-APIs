@@ -26,7 +26,7 @@ def run_spotify(cur,conn):
         spotify.add_artists_id(jsonDict,cur,conn)
         spotify.add_songs(jsonDict,cur,conn)
     # Make calculations and visualizations for spotify 
-    #spotify.make_visualizations(cur,conn)
+    spotify.make_visualizations(cur,conn)
     #spotify.artists_visualization(cur,conn)
     # Create tables for genius
     # Add data for genius
@@ -64,9 +64,9 @@ def main():
     # run spotify
     run_spotify(cur,conn)
     # run audio
-    run_audio(cur,conn)
+    #run_audio(cur,conn)
     # run genius
-    run_genius(cur,conn)
+    #run_genius(cur,conn)
 
 
 if __name__ == "__main__":
