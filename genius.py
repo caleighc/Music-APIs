@@ -95,7 +95,7 @@ def add_data_2(cur, conn):
   data = f.read()
   f.close()
   data_3 = json.loads(data)
-  for item in range(25, 50):
+  for item in range(0, 25):
     title_column = data_3["songs"][item]["full_title"]
     name_column = data_3["name"]
     year_column = data_3["songs"][item]["release_date_components"]["year"]
@@ -107,7 +107,7 @@ def add_data_3(cur, conn):
   data = f.read()
   f.close()
   data_4 = json.loads(data)
-  for item in range(50, 75):
+  for item in range(0, 25):
     title_column = data_4["songs"][item]["full_title"]
     name_column = data_4["name"]
     year_column = data_4["songs"][item]["release_date_components"]["year"]
@@ -119,7 +119,7 @@ def add_data_4(cur, conn):
   data = f.read()
   f.close()
   data_5 = json.loads(data)
-  for item in range(75, 100):
+  for item in range(0, 25):
     title_column = data_5["songs"][item]["full_title"]
     name_column = data_5["name"]
     year_column = data_5["songs"][item]["release_date_components"]["year"]
