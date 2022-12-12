@@ -34,13 +34,11 @@ def make_request(playlist_id):
 
 # Create table with list of artist IDs and artists
 def create_artists_table(cur,conn):
-    cur.execute("DROP TABLE IF EXISTS Artists")
     cur.execute("CREATE TABLE Artists (artist_id TEXT PRIMARY KEY, artist TEXT)")
     conn.commit()
     
 # Create the table called songs which contains information about each song
 def create_songs_table(cur,conn):
-    cur.execute("DROP TABLE IF EXISTS Songs")
     cur.execute("CREATE TABLE Songs (song_name TEXT PRIMARY KEY, song_id TEXT, artist_id TEXT, popularity INTEGER, \
                 valence FLOAT, danceability FLOAT, energy FLOAT)")
     conn.commit()
@@ -67,12 +65,6 @@ def add_songs(data,cur,conn):
         artist_id = cur.fetchone()[0]
         cur.execute("INSERT OR IGNORE INTO Songs (song_name,song_id,artist_id,popularity,valence,danceability,energy) VALUES (?,?,?,?,?,?,?)",(song_name,song_id,artist_id,popularity,valence,danceability,energy))
     conn.commit()
-
-# Write the json data to a file 
-def write_json(filename,dict):
-    jsonString = json.dumps(dict)
-    with open(filename, 'w') as outFile:
-        outFile.write(jsonString)
 
 # Calculate line of best fit and make visualizations 
 def make_visualizations(cur,conn):
