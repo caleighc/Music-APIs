@@ -56,6 +56,7 @@ def run_genius(cur,conn):
     genius._get(path, params=None, headers=None)
     genius.get_artist_songs(artist_id)
     genius.get_song_information(song_ids)
+    genius.make_visualizations(cur,conn)
 
 def main(): 
     cur,conn = set_up_db("music.db") 
