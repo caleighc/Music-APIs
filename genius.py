@@ -21,47 +21,56 @@ list_4 = []
 def song_functions():
   artist = genius.search_artist("SZA", max_songs = 25, sort = 'popularity')
   #print(artist.songs)
-  #list_1.append(artist.songs)
+  list_1 = artist.songs
   artist.save_lyrics()
   artist = genius.search_artist("A Boogie wit da Hoodie", max_songs = 25, sort = 'popularity')
   #print(artist.songs)
-  #list_2.append(artist.songs)
+  list_2 = artist.songs
   artist.save_lyrics()
   artist = genius.search_artist("Lana Del Rey", max_songs = 25, sort = 'popularity')
   #print(artist.songs)
-  #list_3.append(artist.songs)
+  list_3 = artist.songs
   artist.save_lyrics()
   artist = genius.search_artist("Taylor Swift", max_songs = 25, sort = 'popularity')
   #print(artist.songs)
-  #list_4.append(artist.songs)
+  list_4 = artist.songs
   artist.save_lyrics()
-  #return artist.songs
+  return list_1, list_2, list_3, list_4
     
   
 #artist = genius.search_artist("Drake", max_songs = 100, sort = 'popularity')
 #print(artist.songs)
 
 # create table
-def create_tables(cur, conn):
+def make_tables(cur, conn):
   cur.execute('DROP TABLE IF EXISTS SongsAudiodb')
   cur.execute("CREATE TABLE IF NOT EXISTS SongsAudiodb ((full_title TEXT PRIMARY KEY, name TEXT, year INT)")
   conn.commit()
 
-f = open ('Lyrics_SZA.json', "r")
-data  = json.loads(f.read())
-for i in data:
-  print(i)
- 
-# insert data into table 
-def add_data(cur, conn):
-  #print(list_1)
-  for item in range(len(full_title)):
-    title_column = Lyrics_SZA.json["songs"]["full_title"][item]
-    name_column = Lyrics_SZA.json["name"][item]
-    year_column = Lyrics_SZA.json["songs"]["year"][item]
-    cur.execute("INSERT OR IGNORE INTO SongsAudiodb (Lyrics_SZA.json[full_title], Lyrics_SZA.json[name], Lyrics_SZA.json[year]) VALUES (?, ?, ?)", (title_column, name_column, year_column))
+#f = open ('Lyrics_SZA.json', "r")
+#data  = json.loads(f.read())
+#for i in data:
+  #print(i)
+def add_data(cur, conn): 
+  with open("Lyrics_SZA.json", "r") as f:
+    data = json.load(f)
+    title_column = data["songs"][0]["full_title"]
+    print(title_column)
+    name_column = data["name"]
+    print(name_column)
+    year_column = data["songs"][0]["release_date_components"]["year"]
+    print(year_column)
+    cur.execute("INSERT OR IGNORE INTO SongsAudiodb (data["songs"][0]["full_title"], data["name"], data["songs"][0]["release_date_components"]["year"]) VALUES (?, ?, ?)", (title_column, name_column, year_column))
     conn.commit()
-f.close()
+
+  #print(list_1)
+  #for item in range(len("full_title")):
+    #title_column = data["songs"]["full_title"][item]
+    #name_column = data["name"][item]
+    #year_column = data["songs"]["year"][item]
+    #cur.execute("INSERT OR IGNORE INTO SongsAudiodb (Lyrics_SZA.json[full_title], Lyrics_SZA.json[name], Lyrics_SZA.json[year]) VALUES (?, ?, ?)", (title_column, name_column, year_column))
+    #conn.commit()
+#f.close()
 
 
   #if i decide to put parameters in just update both song_functions()
