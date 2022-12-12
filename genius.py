@@ -110,7 +110,7 @@ def add_data_3(cur, conn):
   for item in range(0, 25):
     title_column = data_4["songs"][item]["full_title"]
     name_column = data_4["name"]
-    year_column = data_4["songs"][0]["release_date_components"]["year"]
+    year_column = data_4["songs"][item]["release_date_components"]["year"]
     cur.execute("INSERT or IGNORE INTO Genius (full_title, name, year) VALUES (?, ?, ?)", (title_column, name_column, year_column))
   conn.commit()
 
