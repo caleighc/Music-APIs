@@ -4,6 +4,7 @@ import requests
 import json
 import os
 import re
+import csv
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -15,9 +16,10 @@ song_id = []
 song = []
 artist_id = []
 artist = []
-# genre = []
 score = []
 votes = []
+genre = []
+# mood = []
 
 # make request
 def request_data(artist_ids):
@@ -80,18 +82,26 @@ def request_data(artist_ids):
         votes.append(item)
 
 
+    # get song genre 
+    regex = r'"strGenre":"([\w+\s*\/*\-*\&*]{1,})"'
+    temp = re.findall(regex, data)
+    for item in temp:
+        genre.append(item)
 
-    # # get song genre 
-    # regex = r'"strGenre":"([\w+\s*\/*\-*\&*]{1,})"'
+    # # get song mood
+    # regex = r'"strMood":"{0,1}([\w+\s*\/*\-*\&*]{1,}|null|[...])"{0,1}'
     # temp = re.findall(regex, data)
     # for item in temp:
-    #     genre.append(item)
+    #     if item == '.':
+    #         item = 'null'
+    #     mood.append(item)
 
 
 
 # create table
 def create_table(cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS SongsAudiodb (song_id INT PRIMARY KEY, song TEXT, artist_id INT, score TEXT, votes TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS SongsAudiodb (song_id INT PRIMARY KEY, song TEXT, artist_id INT, score TEXT, genre TEXT)")
+
     cur.execute("CREATE TABLE IF NOT EXISTS ArtistsAudiodb (artist_id INT PRIMARY KEY, artist TEXT)")
 
     conn.commit()
@@ -108,12 +118,9 @@ def insert_data(cur, conn):
             score_temp = float(score[item])
         else:
             score_temp = None
-            
-        if votes[item] != 'null':
-            votes_temp = int(votes[item])
-        else:
-            votes_temp = None
-        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, votes) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, votes_temp))
+        genre_temp = genre[item]
+
+        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, genre) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, genre_temp))
     for item in range(25, 50):
         id_temp = song_id[item]
         song_temp = song[item]
@@ -122,12 +129,9 @@ def insert_data(cur, conn):
             score_temp = float(score[item])
         else:
             score_temp = None
-            
-        if votes[item] != 'null':
-            votes_temp = int(votes[item])
-        else:
-            votes_temp = None
-        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, votes) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, votes_temp))
+        genre_temp = genre[item]
+        
+        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, genre) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, genre_temp))
     for item in range(50, 75):
         id_temp = song_id[item]
         song_temp = song[item]
@@ -136,12 +140,9 @@ def insert_data(cur, conn):
             score_temp = float(score[item])
         else:
             score_temp = None
-            
-        if votes[item] != 'null':
-            votes_temp = int(votes[item])
-        else:
-            votes_temp = None
-        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, votes) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, votes_temp))
+        genre_temp = genre[item]
+        
+        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, genre) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, genre_temp))
     for item in range(75, 100):
         id_temp = song_id[item]
         song_temp = song[item]
@@ -150,12 +151,9 @@ def insert_data(cur, conn):
             score_temp = float(score[item])
         else:
             score_temp = None
-            
-        if votes[item] != 'null':
-            votes_temp = int(votes[item])
-        else:
-            votes_temp = None
-        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, votes) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, votes_temp))
+        genre_temp = genre[item]
+        
+        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, genre) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, genre_temp))
 
     # artist table
     for item in range(0, len(artist_id), 10):
@@ -165,27 +163,47 @@ def insert_data(cur, conn):
 
     conn.commit()
 
-def addlabels(x, y):
-    for i in range(len(x)):
-        plt.text(i, y[i], y[i], ha = 'center')
+
 
 # calculate the average score for each artist 
-def calculate(cur, conn):
-    # cur.execute("SELECT a.artist, avg(s.votes) from SongsAudiodb s join ArtistsAudiodb a on s.artist_id = a.artist_id group by a.artist")
-    # result = cur.fetchall()
-    # conn.commit()
-    # print(result)
-
+def calculate1(cur, conn):
     cur.execute("SELECT a.artist, avg(s.score) from SongsAudiodb s join ArtistsAudiodb a on s.artist_id = a.artist_id group by a.artist")
     result = cur.fetchall()
     conn.commit()
+    return result
 
+def calculate2(cur, conn):
+    cur.execute("SELECT genre, count(1) from SongsAudiodb group by genre")
+    result = cur.fetchall()
+    conn.commit()
+    return result
+
+
+def write_to_csv1(result):
+    headers = ["Artist Name", "Average Score"]
+    with open("calculations1.csv", "w+", newline = "") as f:
+        write = csv.writer(f, delimiter = ',')
+        write.writerow(headers)
+
+        for i in result:
+            write.writerow([i[0], round(i[1], 2)])
+
+def write_to_csv2(result):
+    headers = ["Genre", "Number of Songs in Genre"]
+    with open("calculations2.csv", "w+", newline = "") as f:
+        write = csv.writer(f, delimiter = ',')
+        write.writerow(headers)
+
+        for i in result:
+            write.writerow([i[0], round(i[1], 2)])
+
+def make_chart1(result):
     x = []
     y = []
     for i in result:
         x.append(i[0])
         y.append(round(i[1], 2))
-    plt.bar(x, y)
+    plt.bar(x, y, color="cyan")
     addlabels(x, y)
     plt.title("Average Score of Artists' Top 10 Songs")
     plt.xlabel("Artist")
@@ -193,15 +211,16 @@ def calculate(cur, conn):
     plt.show()
 
 
-
-def main():
-
-    artist_ids = ['20244d07-534f-4eff-b4d4-930878889970', '9fff2f8a-21e6-47de-a2b8-7f449929d43f', '381086ea-f511-4aba-bdf9-71c753dc5077', '65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab', 'c8b03190-306c-4120-bb0b-6f2ebfc06ea9',
-    'e0140a67-e4d1-4f13-8a01-364355bee46e', 'f4fdbb4c-e4b7-47a0-b83b-d91bbfcfa387', 'f27ec8db-af05-4f36-916e-3d57f91ecf5e', '73e5e69d-3554-40d8-8516-00cb38737a1c', 'b8a7c51f-362c-4dcb-a259-bc6e0095f0a6']
-    for id in artist_ids:
-        request_data(id)
+def addlabels(x, y):
+    for i in range(len(x)):
+        plt.text(i, y[i], y[i], ha = 'center')
 
 
-
-if __name__ == "__main__":
-    main()
+def make_chart2():
+    labels = ['Country', 'Hip-Hop', 'Pop', 'R&B', 'Thrash Metal']
+    size = [8, 20, 52, 10, 10]
+    colors = ['#F8C8DC', '#87CEEB', '#D2B4DE', '#40E0D0', '#96DED1']
+    plt.pie(size, labels = labels, colors = colors, autopct = '%1.1f%%', startangle = 140)
+    plt.axis('equal')
+    plt.title("Percentage of Songs in Each Genre")
+    plt.show() 

@@ -52,27 +52,9 @@ def song_functions():
 
 # create table
 def new_tables(cur, conn):
-  # cur.execute('DROP TABLE IF EXISTS Genius')
   cur.execute("CREATE TABLE IF NOT EXISTS Genius (full_title TEXT PRIMARY KEY, name TEXT, year INTEGER)")
   conn.commit()
 
-#f = open ('Lyrics_SZA.json', "r")
-#data  = json.loads(f.read())
-#for i in data:
-  #print(i)
-#ARTIST_NAME = "<SZA>"
-#def _get(path, params=None, headers=None):
-  #requrl = '/'.join([BASE_URL, path])
-  #token = "Bearer {}".format(API_KEY)
-  #if headers:
-    #headers['Authorization'] = token
-  #else:
-    #headers = {"Authorization": token}
-  
-  #response = requests.get(url=requrl, params=params, headers=headers)
-  #response.raise_for_status()
-
-  #return response.json
 
 def add_data_1(cur, conn): 
   f = open("Lyrics_SZA.json")
