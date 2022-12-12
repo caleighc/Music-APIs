@@ -37,11 +37,22 @@ def run_audio(cur,conn):
     'e0140a67-e4d1-4f13-8a01-364355bee46e', 'f4fdbb4c-e4b7-47a0-b83b-d91bbfcfa387', 'f27ec8db-af05-4f36-916e-3d57f91ecf5e', '73e5e69d-3554-40d8-8516-00cb38737a1c', 'b8a7c51f-362c-4dcb-a259-bc6e0095f0a6']
     for id in artist_id:
         audio.request_data(id)
+
     # Create tables for audio-db 
     audio.create_table(cur, conn)
+
     # Add data for audio-db
-    audio.insert_data(cur, conn)
-    audio.calculate(cur, conn)
+    audio.insert_data(cur, conn) 
+
+    # calculations/visualizations
+    result1 = audio.calculate1(cur, conn)
+    audio.write_to_csv1(result1)
+    # audio.make_chart1(result1)
+
+    result2 = audio.calculate2(cur, conn)
+    audio.write_to_csv2(result2)
+    audio.make_chart2()
+
     
 def run_genius(cur,conn):
     # Create tables for genius
