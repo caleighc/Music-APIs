@@ -29,11 +29,7 @@ def run_spotify(cur,conn):
     #spotify.make_visualizations(cur,conn)
     #spotify.artists_visualization(cur,conn)
     # Create tables for genius
-    genius.song_functions()
-    genius.make_tables(cur, conn)
-    
-    # Add data for genius 
-    genius.add_data(cur, conn)
+    # Add data for genius
 
 
 def run_audio(cur,conn):
@@ -51,8 +47,15 @@ def run_genius(cur,conn):
     # Create tables for genius
     genius.song_functions()
     genius.new_tables(cur,conn)
-    # Add data for genius 
-    genius.add_data(cur, conn)
+    # Add data from genius 
+    genius.add_data_1(cur, conn)
+    genius.add_data_2(cur, conn)
+    genius.add_data_3(cur, conn)
+    genius.add_data_4(cur, conn)
+    genius.cur,conn = set_up_db("music.db")
+    genius._get(path, params=None, headers=None)
+    genius.get_artist_songs(artist_id)
+    genius.get_song_information(song_ids)
 
 def main(): 
     cur,conn = set_up_db("music.db") 
