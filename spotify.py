@@ -21,7 +21,9 @@ def make_request(playlist_id):
     client_id = "2e595246fa1d4684aec2c33575c0271f"
     client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
     spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+    # Get the tracks on the playlist 
     playlist = spotify.playlist_tracks(playlist_id,fields='items(track(name,id,popularity,artists))',limit=25)
+    # Get the song_id for each track and then make another request to get data on each song
     for song in playlist['items']:
         id = song['track']['id']
         song_info = spotify.audio_features(id)
@@ -30,14 +32,14 @@ def make_request(playlist_id):
         energy_lst.append(song_info[0]['energy'])
     return playlist
 
-# Create table with list of genre IDs and genres
+# Create table with list of artist IDs and artists
 def create_artists_table(cur,conn):
     cur.execute("DROP TABLE IF EXISTS Artists")
     cur.execute("CREATE TABLE Artists (artist_id TEXT PRIMARY KEY, artist TEXT)")
     conn.commit()
     
-# Create the table called songs
-def make_songs_table(cur,conn):
+# Create the table called songs which contains information about each song
+def create_songs_table(cur,conn):
     cur.execute("DROP TABLE IF EXISTS Songs")
     cur.execute("CREATE TABLE Songs (song_name TEXT PRIMARY KEY, song_id TEXT, artist_id TEXT, popularity INTEGER, \
                 valence FLOAT, danceability FLOAT, energy FLOAT)")
@@ -54,15 +56,13 @@ def add_artists_id(data,cur,conn):
     
 # Add 25 songs at a time to table
 def add_songs(data,cur,conn):
-    i = 0
-    for track in data['items']:
+    for i, track in enumerate(data['items']):
         song_name = track['track']['name']
         song_id = track['track']['id']
         popularity = track['track']['popularity']
         valence = valence_lst[i]
         danceability = danceability_lst[i]
         energy = energy_lst[i]
-        i+=1
         cur.execute('SELECT artist_id FROM Artists WHERE artist = ?',(track['track']['artists'][0]['name'], ))
         artist_id = cur.fetchone()[0]
         cur.execute("INSERT OR IGNORE INTO Songs (song_name,song_id,artist_id,popularity,valence,danceability,energy) VALUES (?,?,?,?,?,?,?)",(song_name,song_id,artist_id,popularity,valence,danceability,energy))
@@ -154,5 +154,6 @@ def artists_visualization(cur,conn):
     plt.xlabel('Number of songs')
     plt.barh(y,x)
     plt.show()
+
 
 
