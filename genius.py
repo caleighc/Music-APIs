@@ -60,7 +60,7 @@ def add_data(cur, conn):
     print(name_column)
     year_column = data["songs"][0]["release_date_components"]["year"]
     print(year_column)
-    cur.execute("INSERT OR IGNORE INTO SongsAudiodb (title_column, name_column, year_column) VALUES (?, ?, ?)", (title_column, name_column, year_column))
+    cur.execute("INSERT OR IGNORE INTO Genius (title_column, name_column, year_column) VALUES (?, ?, ?)", (title_column, name_column, year_column))
     conn.commit()
 
   #print(list_1)
