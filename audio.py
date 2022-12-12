@@ -91,10 +91,7 @@ def request_data(artist_ids):
 
 # create table
 def create_table(cur, conn):
-    cur.execute('DROP TABLE IF EXISTS SongsAudiodb')
     cur.execute("CREATE TABLE IF NOT EXISTS SongsAudiodb (song_id INT PRIMARY KEY, song TEXT, artist_id INT, score TEXT, votes TEXT)")
-
-    cur.execute('DROP TABLE IF EXISTS ArtistsAudiodb')
     cur.execute("CREATE TABLE IF NOT EXISTS ArtistsAudiodb (artist_id INT PRIMARY KEY, artist TEXT)")
 
     conn.commit()
