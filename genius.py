@@ -43,8 +43,8 @@ def song_functions():
 
 # create table
 def make_tables(cur, conn):
-  cur.execute('DROP TABLE IF EXISTS SongsAudiodb')
-  cur.execute("CREATE TABLE IF NOT EXISTS SongsAudiodb (full_title TEXT PRIMARY KEY, name TEXT, year INT)")
+  cur.execute('DROP TABLE IF EXISTS Genius')
+  cur.execute("CREATE TABLE IF NOT EXISTS Genius (full_title TEXT PRIMARY KEY, name TEXT, year INT)")
   conn.commit()
 
 #f = open ('Lyrics_SZA.json', "r")
@@ -78,5 +78,3 @@ def add_data(cur, conn):
   
 #find average length of the title and compare it to popularity
 
-song_functions()
-add_data(cur, conn)
