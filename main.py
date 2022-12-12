@@ -50,7 +50,7 @@ def run_audio(cur,conn):
 def run_genius(cur,conn):
     # Create tables for genius
     genius.song_functions()
-    genius.make_tables(cur,conn)
+    genius.new_tables(cur,conn)
     # Add data for genius 
     genius.add_data(cur, conn)
 

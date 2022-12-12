@@ -78,5 +78,3 @@ def add_data(cur, conn):
   
 #find average length of the title and compare it to popularity
 
-song_functions()
-add_data(cur, conn)
