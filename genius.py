@@ -3,7 +3,7 @@ import sqlite3
 import json
 import os
 import matplotlib.pyplot as plt
-import numpy as np
+from statistics import mean
 
 # Remi Goldfarb
 # Genius API
@@ -59,19 +59,19 @@ def new_tables(cur, conn):
 #data  = json.loads(f.read())
 #for i in data:
   #print(i)
-ARTIST_NAME = "<SZA>"
-def _get(path, params=None, headers=None):
-  requrl = '/'.join([BASE_URL, path])
-  token = "Bearer {}".format(API_KEY)
-  if headers:
-    headers['Authorization'] = token
-  else:
-    headers = {"Authorization": token}
+#ARTIST_NAME = "<SZA>"
+#def _get(path, params=None, headers=None):
+  #requrl = '/'.join([BASE_URL, path])
+  #token = "Bearer {}".format(API_KEY)
+  #if headers:
+    #headers['Authorization'] = token
+  #else:
+    #headers = {"Authorization": token}
   
-  response = requests.get(url=requrl, params=params, headers=headers)
-  response.raise_for_status()
+  #response = requests.get(url=requrl, params=params, headers=headers)
+  #response.raise_for_status()
 
-  return response.json
+  #return response.json
 
 def add_data_1(cur, conn): 
   f = open("Lyrics_SZA.json")
@@ -128,15 +128,17 @@ def writing_json_genius(filename,dict):
         outFile.write(jsonString)
 
    
-def make_visualizations_hist(cur,conn):
-    plt.figure()
-    cur.execute()
-    """
-    SELECT full_title, avg(year)
-    FROM Genius
-    """
-    res = cur.fetchall()
-    conn.commit()
+def make_visualizations_hist(Genius):
+    x_values = []
+    for values in Genius:
+      x_values.append(values[1])
+    fig, ax = plt.subplots(figsize =(10, 7))
+
+    ax.hist(mean(x_values), year = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022])
+    plt.title("Average Year Top Songs Were Produced")
+    plt.xlabel("Mean of Year")
+    plt.ylabel("Number of Occurences")
+    plt.show()
     
     #for year_var in year_column[data_2]:
   
