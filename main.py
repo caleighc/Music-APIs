@@ -28,7 +28,6 @@ def run_spotify(cur,conn):
     # Make calculations and visualizations for spotify 
     #spotify.make_visualizations(cur,conn)
     #spotify.artists_visualization(cur,conn)
-<<<<<<< HEAD
     # Create tables for genius
     genius.song_functions()
     genius.make_tables(cur, conn)
@@ -36,8 +35,6 @@ def run_spotify(cur,conn):
     # Add data for genius 
     genius.add_data(cur, conn)
 
-=======
->>>>>>> ad7954f5bb2ce2ef0e46adcb2aa78dd37760117a
 
 def run_audio(cur,conn):
     artist_id = ['20244d07-534f-4eff-b4d4-930878889970', '9fff2f8a-21e6-47de-a2b8-7f449929d43f', '381086ea-f511-4aba-bdf9-71c753dc5077', '65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab', 'c8b03190-306c-4120-bb0b-6f2ebfc06ea9',

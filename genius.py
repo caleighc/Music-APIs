@@ -44,7 +44,7 @@ def song_functions():
 # create table
 def make_tables(cur, conn):
   cur.execute('DROP TABLE IF EXISTS SongsAudiodb')
-  cur.execute("CREATE TABLE IF NOT EXISTS SongsAudiodb ((full_title TEXT PRIMARY KEY, name TEXT, year INT)")
+  cur.execute("CREATE TABLE IF NOT EXISTS SongsAudiodb (full_title TEXT PRIMARY KEY, name TEXT, year INT)")
   conn.commit()
 
 #f = open ('Lyrics_SZA.json', "r")
@@ -60,7 +60,7 @@ def add_data(cur, conn):
     print(name_column)
     year_column = data["songs"][0]["release_date_components"]["year"]
     print(year_column)
-    cur.execute("INSERT OR IGNORE INTO SongsAudiodb (data["songs"][0]["full_title"], data["name"], data["songs"][0]["release_date_components"]["year"]) VALUES (?, ?, ?)", (title_column, name_column, year_column))
+    cur.execute("INSERT OR IGNORE INTO SongsAudiodb (title_column, name_column, year_column) VALUES (?, ?, ?)", (title_column, name_column, year_column))
     conn.commit()
 
   #print(list_1)
