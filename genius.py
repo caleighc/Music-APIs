@@ -48,12 +48,6 @@ def song_functions():
 #artist = genius.search_artist("Drake", max_songs = 100, sort = 'popularity')
 #print(artist.songs)
 
-def set_up_db(db_name):
-  path = os.path.dirname(os.path.abspath(__file__))
-  conn = sqlite3.connect(path+'/'+db_name)
-  cur = conn.cursor()
-  return cur,conn
-set_up_db("music.db")
 
 # create table
 def new_tables(cur, conn):
@@ -128,13 +122,13 @@ def add_data_4(cur, conn):
   conn.commit()
 
 # Write the json data to a file 
-def writing_json(filename,dict):
+def writing_json_genius(filename,dict):
     jsonString = json.dumps(dict)
     with open(filename, 'w') as outFile:
         outFile.write(jsonString)
 
    
-def make_visualizations(cur,conn):
+def make_visualizations_hist(cur,conn):
     plt.figure()
     cur.execute()
     """
@@ -143,28 +137,7 @@ def make_visualizations(cur,conn):
     """
     res = cur.fetchall()
     conn.commit()
-    x,y = list(map(list, zip(*res)))
-    x = np.array(x)
-    y = np.array(y)
-    # Calculate the slope
-    n = len(x)
-    mean_x = np.mean(x)
-    mean_y = np.mean(y)
-    sxy = np.sum(x*y) - n*mean_x*mean_y
-    sxx = np.sum(x*x) - n*mean_x*mean_x
-    slope = sxy/sxx
-    b = mean_y-slope*mean_x
-    line_best_fit = slope * x + b
-    print(f"The slope is {slope}")
-    print(f"The y-intercept is {b}")
-    print(f"The line of best fit is y = {slope}*x + {b}")
-    # Plot the scatter and line of best fit
-    plt.xlabel('full_title')
-    plt.ylabel('year')
-    plt.title("full_title vs. year")
-    plt.scatter(x,y,color='blue')
-    plt.plot(x,line_best_fit, color='red')
-    plt.show()
+    
     #for year_var in year_column[data_2]:
   
   #print(list_1)
@@ -181,16 +154,3 @@ def make_visualizations(cur,conn):
   #find one of the sql functions that inserts info into the database
   
 #find average length of the title and compare it to popularity
-
-def main():
-  song_functions()
-  cur, conn = set_up_db("music.db")
-  new_tables(cur, conn)
-  add_data_1(cur, conn)
-  add_data_2(cur, conn)
-  add_data_3(cur, conn)
-  add_data_4(cur, conn)
-
-if __name__ == "__main__":
-  main()
-
