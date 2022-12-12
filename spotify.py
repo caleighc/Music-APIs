@@ -68,15 +68,6 @@ def add_songs(data,cur,conn):
         cur.execute("INSERT OR IGNORE INTO Songs (song_name,song_id,artist_id,popularity,valence,danceability,energy) VALUES (?,?,?,?,?,?,?)",(song_name,song_id,artist_id,popularity,valence,danceability,energy))
     conn.commit()
 
-# Reads and loads the json data from the file
-def read_data(filename):
-    full_path = os.path.join(os.path.dirname(__file__), filename)
-    f = open(full_path)
-    file_data = f.read()
-    f.close()
-    json_data = json.loads(file_data)
-    return json_data
-
 # Write the json data to a file 
 def write_json(filename,dict):
     jsonString = json.dumps(dict)
