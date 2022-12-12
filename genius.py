@@ -42,7 +42,7 @@ def song_functions():
 #print(artist.songs)
 
 # create table
-def make_tables(cur, conn):
+def new_tables(cur, conn):
   cur.execute('DROP TABLE IF EXISTS SongsAudiodb')
   cur.execute("CREATE TABLE IF NOT EXISTS SongsAudiodb (full_title TEXT PRIMARY KEY, name TEXT, year INT)")
   conn.commit()
