@@ -72,11 +72,11 @@ def run_genius(cur,conn):
 def main(): 
     cur,conn = set_up_db("music.db") 
     # run spotify
-    #run_spotify(cur,conn)
+    run_spotify(cur,conn)
     # run audio
     #run_audio(cur,conn)
-    run_genius
-    run_genius(cur,conn)
+#     run_genius
+#     run_genius(cur,conn)
 
 
 if __name__ == "__main__":
