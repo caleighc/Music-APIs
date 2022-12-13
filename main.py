@@ -47,7 +47,7 @@ def run_audio(cur,conn):
     # calculations/visualizations
     result1 = audio.calculate1(cur, conn)
     audio.write_to_csv1(result1)
-    # audio.make_chart1(result1)
+    audio.make_chart1(result1)
 
     result2 = audio.calculate2(cur, conn)
     audio.write_to_csv2(result2)
