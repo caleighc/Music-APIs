@@ -19,17 +19,12 @@ def run_spotify(cur,conn):
     # Create tables for spotify 
     spotify.create_artists_table(cur,conn)
     spotify.create_songs_table(cur,conn)
-    # Add data to both tables
-    playlist_ids = ["37i9dQZF1DX7Jl5KP2eZaS","37i9dQZF1DX0kbJZpiYdZl","6SjN06zZBZpsCWJk2DwhDs","3KHb0WRmzbp9WH7E2mXVmx","0chdKQr18NN9WRI355V8BN"]
-    for id in playlist_ids:
-        jsonDict = spotify.make_request(id)
-        spotify.add_artists_id(jsonDict,cur,conn)
-        spotify.add_songs(jsonDict,cur,conn)
+    jsonDict = spotify.make_request()
+    spotify.add_artists_id(jsonDict,cur,conn)
+    spotify.add_songs(jsonDict,cur,conn)
     # Make calculations and visualizations for spotify 
-    spotify.make_visualizations(cur,conn)
+    #spotify.make_visualizations(cur,conn)
     #spotify.artists_visualization(cur,conn)
-    # Create tables for genius
-    # Add data for genius
 
 
 def run_audio(cur,conn):
@@ -71,12 +66,9 @@ def run_genius(cur,conn):
 
 def main(): 
     cur,conn = set_up_db("music.db") 
-    # run spotify
     run_spotify(cur,conn)
-    # run audio
     #run_audio(cur,conn)
-#     run_genius
-#     run_genius(cur,conn)
+    #run_genius(cur,conn)
 
 
 if __name__ == "__main__":
