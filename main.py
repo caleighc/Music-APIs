@@ -22,10 +22,8 @@ def run_spotify(cur,conn):
     jsonDict = spotify.make_request()
     spotify.add_artists_id(jsonDict,cur,conn)
     spotify.add_songs(jsonDict,cur,conn)
-    # Make calculations and visualizations for spotify 
-    #spotify.make_visualizations(cur,conn)
-    #spotify.artists_visualization(cur,conn)
-
+    spotify.make_visualizations(cur,conn)
+    spotify.artists_visualization(cur,conn)
 
 def run_audio(cur,conn):
     artist_id = ['20244d07-534f-4eff-b4d4-930878889970', '9fff2f8a-21e6-47de-a2b8-7f449929d43f', '381086ea-f511-4aba-bdf9-71c753dc5077', '65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab', 'c8b03190-306c-4120-bb0b-6f2ebfc06ea9',
@@ -48,7 +46,6 @@ def run_audio(cur,conn):
     audio.write_to_csv2(result2)
     audio.make_chart2()
 
-    
 def run_genius(cur,conn):
     # Create tables for genius
     genius.song_functions()
