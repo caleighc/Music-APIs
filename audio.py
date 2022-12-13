@@ -67,7 +67,6 @@ def request_data(artist_ids):
     for item in temp:
         artist.append(item)
 
-    
 
     # get song score 
     regex = r'"intScore":"{0,1}([0-9*.*0-9*]{1,}|null)"{0,1}'
@@ -81,20 +80,12 @@ def request_data(artist_ids):
     for item in temp:
         votes.append(item)
 
-
     # get song genre 
     regex = r'"strGenre":"([\w+\s*\/*\-*\&*]{1,})"'
     temp = re.findall(regex, data)
     for item in temp:
         genre.append(item)
 
-    # # get song mood
-    # regex = r'"strMood":"{0,1}([\w+\s*\/*\-*\&*]{1,}|null|[...])"{0,1}'
-    # temp = re.findall(regex, data)
-    # for item in temp:
-    #     if item == '.':
-    #         item = 'null'
-    #     mood.append(item)
 
 
 
@@ -109,51 +100,27 @@ def create_table(cur, conn):
 
 # insert data into table 
 def insert_data(cur, conn):
-    # songs table
-    for item in range(0, 25):
-        id_temp = song_id[item]
-        song_temp = song[item]
-        artist_id_temp = artist_id[item]
-        if score[item] != 'null':
-            score_temp = float(score[item])
-        else:
-            score_temp = None
-        genre_temp = genre[item]
+    cur.execute("SELECT count(*) from SongsAudiodb")
+    count = cur.fetchone()[0]
+    if count == None:
+        count = 0
 
-        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, genre) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, genre_temp))
-    for item in range(25, 50):
-        id_temp = song_id[item]
-        song_temp = song[item]
-        artist_id_temp = artist_id[item]
-        if score[item] != 'null':
-            score_temp = float(score[item])
-        else:
-            score_temp = None
-        genre_temp = genre[item]
-        
-        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, genre) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, genre_temp))
-    for item in range(50, 75):
-        id_temp = song_id[item]
-        song_temp = song[item]
-        artist_id_temp = artist_id[item]
-        if score[item] != 'null':
-            score_temp = float(score[item])
-        else:
-            score_temp = None
-        genre_temp = genre[item]
-        
-        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, genre) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, genre_temp))
-    for item in range(75, 100):
-        id_temp = song_id[item]
-        song_temp = song[item]
-        artist_id_temp = artist_id[item]
-        if score[item] != 'null':
-            score_temp = float(score[item])
-        else:
-            score_temp = None
-        genre_temp = genre[item]
-        
-        cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, genre) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, genre_temp))
+    for item in range(count, count + 25):
+        try:
+            id_temp = song_id[item]
+            song_temp = song[item]
+            artist_id_temp = artist_id[item]
+            if score[item] != 'null':
+                score_temp = float(score[item])
+            else:
+                score_temp = None
+            genre_temp = genre[item]
+                
+            cur.execute("INSERT OR IGNORE INTO SongsAudiodb (song_id, song, artist_id, score, genre) VALUES (?, ?, ?, ?, ?)", (id_temp, song_temp, artist_id_temp, score_temp, genre_temp))
+        except:
+            "Exceeded 25 rows"
+
+    conn.commit()
 
     # artist table
     for item in range(0, len(artist_id), 10):
@@ -213,7 +180,7 @@ def make_chart1(result):
 
 def addlabels(x, y):
     for i in range(len(x)):
-        plt.text(i, y[i], y[i], ha = 'center')
+        plt.text(i, y[i], y[i], ha = 'center') 
 
 
 def make_chart2():
