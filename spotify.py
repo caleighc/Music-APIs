@@ -148,4 +148,3 @@ def artists_visualization(cur,conn):
     plt.xlabel('Number of songs')
     plt.barh(y,x,color='pink')
     plt.show()
-
