@@ -1,3 +1,5 @@
+from fileinput import filename
+from sys import path_hooks, path_importer_cache
 import unittest
 import sqlite3
 import json
@@ -48,15 +50,27 @@ def run_genius(cur,conn):
     genius.song_functions()
     genius.new_tables(cur,conn)
     # Add data from genius 
+    genius.input_data(cur, conn)
     genius.add_data_1(cur, conn)
     genius.add_data_2(cur, conn)
     genius.add_data_3(cur, conn)
     genius.add_data_4(cur, conn)
+    genius.add_data_5(cur, conn)
+    genius.add_data_6(cur, conn)
+    genius.add_data_7(cur, conn)
+    genius.add_data_8(cur, conn)
     #genius._get(path, params=None, headers=None)
     #genius.get_artist_songs(artist_id)
     #genius.get_song_information(song_ids)
     #genius.writing_json_genius(files,dict)
-    genius.make_visualizations_hist(cur, conn)
+    #genius.make_visualizations_hist(cur, conn)
+
+#def run_shazam(cur, conn):
+    #most_shazam = top_100('US')
+    #shazam.top_100('US')
+
+#def newgeniusfunction():
+    #newgenius.run_newgenius()
 
 def main(): 
     cur,conn = set_up_db("music.db") 
@@ -64,8 +78,10 @@ def main():
     #run_spotify(cur,conn)
     # run audio
     #run_audio(cur,conn)
-    run_genius
+    #run_genius
     run_genius(cur,conn)
+    #run_newgenius
+
 
 
 if __name__ == "__main__":
